@@ -1,0 +1,52 @@
+{
+  "name": "tentacles-manager",
+  "version": "1.1.0",
+  "description": "Tentacles Manager",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron-webpack dev",
+    "build": "electron-webpack && electron-builder"
+  },
+  "author": "EvilBiscuit",
+  "license": "freeware",
+  "devDependencies": {
+    "electron": "^4.1.4",
+    "electron-builder": "^20.39.0",
+    "electron-webpack": "^2.6.2",
+    "vue-loader": "^15.7.0",
+    "vue-template-compiler": "^2.6.10",
+    "webpack": "^4.29.6"
+  },
+  "dependencies": {
+    "@yaireo/tagify": "^2.19.0",
+    "debounce": "^1.2.0",
+    "fs-extra": "^8.0.1",
+    "lodash": "^4.17.11",
+    "material-design-icons-iconfont": "^4.0.5",
+    "nedb": "^1.8.0",
+    "node-fetch": "^2.6.0",
+    "source-map-support": "^0.5.12",
+    "vue": "^2.6.10",
+    "vue-color": "^2.7.0",
+    "vue-i18n": "^8.10.0",
+    "vuetify": "^1.5.11",
+    "vuetify-image-input": "^18.15.1",
+    "vuex": "^3.1.0"
+  },
+  "electronWebpack": {
+    "whiteListedModules": [
+      "vue",
+      "vuetify",
+      "vue-i18n",
+      "material-design-icons-iconfont",
+      "vuex",
+      "node-fetch"
+    ]
+  },
+  "externals": {
+    "nedb": "commonjs nedb"
+  },
+  "build": {
+    "productName": "Tentacles Manager"
+  }
+}

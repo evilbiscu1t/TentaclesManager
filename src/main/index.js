@@ -122,10 +122,13 @@ export function openMainWindow(dbPath, dbName) {
     }
 
     openWindow('mainWindow', {
-        width  : 1250,
-        height : 800,
-        show   : false,
-        title  : dbName,
+        width          : 1250,
+        height         : 800,
+        show           : false,
+        title          : dbName,
+        webPreferences : {
+            nodeIntegration: true
+        },
     }, {dbFile}).then(closeWelcomeWindow);
 
     return 'ok';
@@ -183,12 +186,15 @@ function closeWelcomeWindow() {
  */
 export function openWelcomeWindow() {
     openWindow('welcomeWindow', {
-        width       : 800,
-        height      : process.platform === 'darwin' ? 520 : 540,
-        title       : 'Tentacles Manager',
-        show        : false,
-        resizable   : false,
-        maximizable : false,
+        width          : 800,
+        height         : process.platform === 'darwin' ? 520 : 540,
+        title          : 'Tentacles Manager',
+        show           : false,
+        resizable      : false,
+        maximizable    : false,
+        webPreferences : {
+            nodeIntegration: true
+        },
     });
 }
 

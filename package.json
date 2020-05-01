@@ -8,11 +8,11 @@
     "build": "electron-webpack && electron-builder"
   },
   "author": "EvilBiscuit",
-  "license": "freeware",
+  "license": "GPLV3",
   "devDependencies": {
-    "electron": "^4.1.4",
-    "electron-builder": "^20.39.0",
-    "electron-webpack": "^2.6.2",
+    "electron": "^8.2.5",
+    "electron-builder": "^22.6.0",
+    "electron-webpack": "^2.8.2",
     "vue-loader": "^15.7.0",
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.29.6"

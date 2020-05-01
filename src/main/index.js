@@ -184,7 +184,7 @@ function closeWelcomeWindow() {
 export function openWelcomeWindow() {
     openWindow('welcomeWindow', {
         width       : 800,
-        height      : process.platform === 'darwin' ? 480 : 500,
+        height      : process.platform === 'darwin' ? 520 : 540,
         title       : 'Tentacles Manager',
         show        : false,
         resizable   : false,

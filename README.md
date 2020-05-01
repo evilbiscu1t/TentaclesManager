@@ -14,7 +14,7 @@ everything nicely. If you are like me, and would like to save info about every i
 that is in development, in a secure and good-looking app, so that in a year or two you can go back and see what is the 
 status of that project, this app is what you are looking for.
 
-####Features list:
+###Features list:
 * Ability to store all the info about games you want to track categorized and searchable
 * Tags that help search and describe all those project
 * Ability to add screenshots

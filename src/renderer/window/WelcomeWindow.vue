@@ -117,14 +117,17 @@
         methods : {
             createDatabase () {
                 mainProcess.openWindow('newDatabaseWindow', {
-                    width       : 400,
-                    height      : 650,
-                    show        : false,
-                    resizable   : false,
-                    maximizable : false,
-                    title       : this.$t('createNewDatabase'),
-                    parent      : remote.getCurrentWindow(),
-                    modal       : true,
+                    width          : 400,
+                    height         : 650,
+                    show           : false,
+                    resizable      : false,
+                    maximizable    : false,
+                    title          : this.$t('createNewDatabase'),
+                    parent         : remote.getCurrentWindow(),
+                    modal          : true,
+                    webPreferences : {
+                        nodeIntegration: true
+                    },
                 }, {}, false);
             },
 
@@ -217,27 +220,28 @@
             },
 
             openExistingDatabase () {
-                const dbFile = mainProcess.chooseDirectory(remote.getCurrentWindow());
+                mainProcess.chooseDirectory(remote.getCurrentWindow()).then(result => {
+                    if (!result.canceled && result.filePaths.length) {
+                        const dbFile = result.filePaths[0];
+                        const dbName = path.basename(dbFile);
+                        const dbPath = path.dirname(dbFile);
 
-                if (dbFile) {
-                    const dbName = path.basename(dbFile);
-                    const dbPath = path.dirname(dbFile);
-
-                    const dbData = this.recentlyOpened.find(db => db.name === dbName && db.path === dbPath);
-                    if (dbData) {
-                        this.openDatabase(dbData);
-                    } else {
-                        if (fs.existsSync(path.join(dbFile, 'settings.json'))) {
-                            this.recentlyOpened.push({name: dbName, path: dbPath});
-                            localStorage.setItem('recentlyOpened', JSON.stringify(this.recentlyOpened));
-
-                            this.openDatabase({name: dbName, path: dbPath});
+                        const dbData = this.recentlyOpened.find(db => db.name === dbName && db.path === dbPath);
+                        if (dbData) {
+                            this.openDatabase(dbData);
                         } else {
-                            this.infoMessage = this.$t('error.incorrectDatabaseFormat');
-                            this.infoDialogOpened = true;
+                            if (fs.existsSync(path.join(dbFile, 'settings.json'))) {
+                                this.recentlyOpened.push({name: dbName, path: dbPath});
+                                localStorage.setItem('recentlyOpened', JSON.stringify(this.recentlyOpened));
+
+                                this.openDatabase({name: dbName, path: dbPath});
+                            } else {
+                                this.infoMessage = this.$t('error.incorrectDatabaseFormat');
+                                this.infoDialogOpened = true;
+                            }
                         }
                     }
-                }
+                });
             },
         },
 

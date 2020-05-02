@@ -66,17 +66,12 @@ export function openWindow (target, windowParams, params = {}, showOnReady = tru
  * Shows open directory dialog. Returns path to selected directory or null if selection was canceled.
  *
  * @param {BrowserWindow} browserWindow Browser window that invoked operation.
- * @returns {string|null}
+ * @returns {Promise<Electron.OpenDialogReturnValue>}
  */
 export function chooseDirectory (browserWindow) {
-    const files = dialog.showOpenDialog(browserWindow, {
+    return dialog.showOpenDialog(browserWindow, {
         properties : ['openDirectory'],
     });
-
-    if (files && files.length > 0) {
-        return files[0];
-    }
-    return null;
 }
 
 /**
@@ -85,7 +80,7 @@ export function chooseDirectory (browserWindow) {
  * @param {BrowserWindow} browserWindow Browser window that invoked operation.
  * @param {string} filterName Tekst to display in filters menu.
  * @param {boolean} multiSelect If true multi selection will be enabled.
- * @returns {null|string[]}
+ * @returns {Promise<Electron.OpenDialogReturnValue>}
  */
 export function chooseImages(browserWindow, filterName, multiSelect = true) {
     let properties = ['openFile'];
@@ -94,17 +89,12 @@ export function chooseImages(browserWindow, filterName, multiSelect = true) {
         properties.push('multiSelections');
     }
 
-    const files = dialog.showOpenDialog(browserWindow, {
+    return dialog.showOpenDialog(browserWindow, {
         properties,
         filters   : [
             {name: filterName, extensions: ['png', 'jpg', 'jpeg']}
         ]
     });
-
-    if (files && files.length > 0) {
-        return files;
-    }
-    return null;
 }
 
 /**

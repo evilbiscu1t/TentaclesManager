@@ -199,9 +199,11 @@
             showChooseDirectory () {
                 const directory = mainProcess.chooseDirectory(remote.getCurrentWindow());
 
-                if (directory) {
-                    this.values.directory = directory;
-                }
+                directory.then(result => {
+                    if (!result.canceled && result.filePaths.length) {
+                        this.values.directory = result.filePaths[0];
+                    }
+                });
             },
 
             createDatabase () {

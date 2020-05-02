@@ -422,21 +422,23 @@
              * Opens images from files and imports them into screenshots panel.
              */
             openScreenImagesFromFile () {
-                const files = mainProcess.chooseImages(remote.getCurrentWindow(), this.$t('images'));
+                mainProcess.chooseImages(remote.getCurrentWindow(), this.$t('images')).then(result => {
+                    if (result.canceled || !result.filePaths.length) {
+                        return;
+                    }
 
-                if (!files) {
-                    return;
-                }
+                    const files = result.filePaths;
 
-                this.$emit('loading-status-changed', true);
+                    this.$emit('loading-status-changed', true);
 
-                for (let file of files) {
-                    const image = nativeImage.createFromPath(file);
+                    for (let file of files) {
+                        const image = nativeImage.createFromPath(file);
 
-                    this.screenshots.push({id: ++this.screenshotsIdSeq, image, preview: image.resize({width: 200}).toDataURL()});
-                }
+                        this.screenshots.push({id: ++this.screenshotsIdSeq, image, preview: image.resize({width: 200}).toDataURL()});
+                    }
 
-                this.$emit('loading-status-changed', false);
+                    this.$emit('loading-status-changed', false);
+                });
             },
 
             /**

@@ -6,7 +6,20 @@ import itemRepository from '../repository/ItemRepository.js';
 import tagsRepository from '../repository/TagsRepository.js';
 import categoryRepository from '../repository/CategoryRepository.js';
 import DatabaseSettings from '../lib/DatabaseSettings.js';
-import encryptionManager from '../lib/EncryptionManager.js'
+import encryptionManager from '../lib/EncryptionManager.js';
+
+/**
+ * Saves application settings into database.
+ *
+ * @param {Object} context Store context.
+ * @returns {Promise<void>}
+ */
+function saveSettingsToDb(context) {
+    const dbSettings = new DatabaseSettings(context.getters.dbFile);
+    dbSettings.setSettings(context.getters.settings);
+
+    return dbSettings.save(encryptionManager.getEncryption());
+}
 
 /**
  * Applications state managed by Vuex.
@@ -39,6 +52,11 @@ const state = {
         imageQuality : 85,
         linkClickAction : 'open',
         patreonClickAction : 'open',
+
+        patreonLinkVisibility: 'show',
+        wwwLinkVisibility: 'show',
+        f95LinkVisibility: 'panel',
+        itchLinkVisibility: 'panel',
     },
 };
 
@@ -51,6 +69,22 @@ const mutations = {
         state.settings.imageQuality = settings.imageQuality;
         state.settings.linkClickAction = settings.linkClickAction;
         state.settings.patreonClickAction = settings.patreonClickAction;
+
+        if ('patreonLinkVisibility' in settings) {
+            state.settings.patreonLinkVisibility = settings.patreonLinkVisibility;
+        }
+
+        if ('wwwLinkVisibility' in settings) {
+            state.settings.wwwLinkVisibility = settings.wwwLinkVisibility;
+        }
+
+        if ('f95LinkVisibility' in settings) {
+            state.settings.f95LinkVisibility = settings.f95LinkVisibility;
+        }
+
+        if ('itchLinkVisibility' in settings) {
+            state.settings.itchLinkVisibility = settings.itchLinkVisibility;
+        }
     },
 
     SET_SETTINGS_IMAGE_QUALITY (state, imageQuality) {
@@ -63,6 +97,22 @@ const mutations = {
 
     SET_SETTINGS_PATREON_CLICK_ACTION (state, clickAction) {
         state.settings.patreonClickAction = clickAction;
+    },
+
+    SET_SETTINGS_PATREON_LINK_VISIBILITY (state, visibility) {
+        state.settings.patreonLinkVisibility = visibility;
+    },
+
+    SET_SETTINGS_WWW_LINK_VISIBILITY (state, visibility) {
+        state.settings.wwwLinkVisibility = visibility;
+    },
+
+    SET_SETTINGS_F95_LINK_VISIBILITY (state, visibility) {
+        state.settings.f95LinkVisibility = visibility;
+    },
+
+    SET_SETTINGS_ITCH_LINK_VISIBILITY (state, visibility) {
+        state.settings.itchLinkVisibility = visibility;
     },
 
     SET_DB_PASSWORD (state, password) {
@@ -266,10 +316,7 @@ const actions = {
     updateImageQuality (context, imageQuality) {
         context.commit('SET_SETTINGS_IMAGE_QUALITY', imageQuality);
 
-        const dbSettings = new DatabaseSettings(context.getters.dbFile);
-        dbSettings.setSettings(context.getters.settings);
-
-        return dbSettings.save(encryptionManager.getEncryption());
+        return saveSettingsToDb(context);
     },
 
     /**
@@ -282,10 +329,7 @@ const actions = {
     updateLinkClickAction (context, clickAction) {
         context.commit('SET_SETTINGS_LINK_CLICK_ACTION', clickAction);
 
-        const dbSettings = new DatabaseSettings(context.getters.dbFile);
-        dbSettings.setSettings(context.getters.settings);
-
-        return dbSettings.save(encryptionManager.getEncryption());
+        return saveSettingsToDb(context);
     },
 
     /**
@@ -298,10 +342,55 @@ const actions = {
     updatePatreonClickAction (context, clickAction) {
         context.commit('SET_SETTINGS_PATREON_CLICK_ACTION', clickAction);
 
-        const dbSettings = new DatabaseSettings(context.getters.dbFile);
-        dbSettings.setSettings(context.getters.settings);
+        return saveSettingsToDb(context);
+    },
 
-        return dbSettings.save(encryptionManager.getEncryption());
+    /**
+     * Updates patreon link visibility settings.
+     *
+     * @param {Object} context Store context.
+     * @param {string} visibility New visibility value.
+     */
+    updatePatreonLinkVisibility (context, visibility) {
+        context.commit('SET_SETTINGS_PATREON_LINK_VISIBILITY', visibility);
+
+        return saveSettingsToDb(context);
+    },
+
+    /**
+     * Updates www link visibility settings.
+     *
+     * @param {Object} context Store context.
+     * @param {string} visibility New visibility value.
+     */
+    updateWwwLinkVisibility (context, visibility) {
+        context.commit('SET_SETTINGS_WWW_LINK_VISIBILITY', visibility);
+
+        return saveSettingsToDb(context);
+    },
+
+    /**
+     * Updates F95 link visibility settings.
+     *
+     * @param {Object} context Store context.
+     * @param {string} visibility New visibility value.
+     */
+    updateF95LinkVisibility (context, visibility) {
+        context.commit('SET_SETTINGS_F95_LINK_VISIBILITY', visibility);
+
+        return saveSettingsToDb(context);
+    },
+
+    /**
+     * Updates F95 link visibility settings.
+     *
+     * @param {Object} context Store context.
+     * @param {string} visibility New visibility value.
+     */
+    updateItchLinkVisibility (context, visibility) {
+        context.commit('SET_SETTINGS_ITCH_LINK_VISIBILITY', visibility);
+
+        return saveSettingsToDb(context);
     },
 
     /**

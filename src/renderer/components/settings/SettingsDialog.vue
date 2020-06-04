@@ -14,6 +14,7 @@
                 <v-tab key="base-settings" ripple>{{ $t('settings') }}</v-tab>
                 <v-tab key="tags-settings" ripple>{{ $t('item.tags') }}</v-tab>
                 <v-tab key="categories-settings" ripple>{{ $t('navigation.categories') }}</v-tab>
+                <v-tab key="additional-data-settings" ripple>{{ $t('item.additionalData') }}</v-tab>
 
                 <v-tab-item key="base-settings">
                     <GeneralSettings />
@@ -24,6 +25,9 @@
                 <v-tab-item key="categories-settings">
                     <CategorySettings @loading-status-changed="loadingStatusChanged" @category-updated="$emit('category-updated')" />
                 </v-tab-item>
+                <v-tab-item key="additional-data-settings">
+                    <AdditionalDataSettings />
+                </v-tab-item>
             </v-tabs>
         </v-card>
     </v-dialog>
@@ -33,6 +37,7 @@
     import GeneralSettings from './GeneralSettings.vue';
     import TagSettings from './TagSettings.vue';
     import CategorySettings from './CategorySettings.vue';
+    import AdditionalDataSettings from "./AdditionalDataSettings";
 
     export default {
         name: 'SettingsDialog',
@@ -42,6 +47,7 @@
         },
 
         components : {
+            AdditionalDataSettings,
             GeneralSettings,
             TagSettings,
             CategorySettings,

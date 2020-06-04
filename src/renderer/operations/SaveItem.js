@@ -69,8 +69,6 @@ export default class {
         const dataPath = path.join(dbPath, 'data', this.id);
         const imageQuality = store.getters.settings.imageQuality;
 
-        console.log(imageQuality);
-
         if (this.avatarImage || this.screenshots.length > 0) {
             if (!fs.existsSync(dataPath)) {
                 if (!fs.existsSync(path.join(dbPath, 'data'))) {

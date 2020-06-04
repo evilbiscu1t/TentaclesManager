@@ -77,6 +77,8 @@ export default {
     'item.screenshots' : 'Zrzuty ekranu',
     'item.patreonLink' : 'Patreon Link',
     'item.www' : 'Strona WWW',
+    'item.f95link' : 'F95 Zone link',
+    'item.itchLink' : 'Itch.io link',
     'item.inDevelopment' : 'W trakcie tworzenia',
     'item.completed' : 'Ukończona',
     'item.favorite' : 'Ulubione',
@@ -84,6 +86,7 @@ export default {
     'item.tags' : 'Tagi',
     'item.archived' : 'Archiwum',
     'item.category' : 'Kategoria',
+    'item.additionalData' : 'Dane dodatkowe',
 
     'item.addNew' : 'Dodaj nową pozycję',
     'item.screen.openFromFile' : 'Otwórz z pliku',
@@ -98,6 +101,10 @@ export default {
     'settings.linkClickAction.open' : 'Otwórz w przeglądarce',
     'settings.linkClickAction.copy' : 'Kopiuj do schowka',
     'settings.linkClickAction.ask' : 'Zapytaj co robić',
+    'settings.propertiesVisibility' : 'Widoczność pól',
+    'settings.fieldVisibilityOption.show' : 'Pokaż',
+    'settings.fieldVisibilityOption.showInPanel' : 'Pokaż w panelu danych dodatkowych',
+    'settings.fieldVisibilityOption.hide' : 'Ukryj',
 
     'category.edit' : 'Edytuj Kategorię',
     'category.name' : 'Nazwa',

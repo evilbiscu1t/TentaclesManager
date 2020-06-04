@@ -18,8 +18,10 @@
                         <v-text-field :counter="250" :label="$t('item.name')" v-model="values.name" :rules="[validationRules.required]" @contextmenu="showStandardTextMenu"></v-text-field>
                         <v-select :label="$t('item.category')" :items="availableCategories" clearable item-text="name" item-value="_id" v-if="availableCategories.length" v-model="values.categoryId"></v-select>
                         <v-textarea :label="$t('item.description')" v-model="values.description" @contextmenu="showStandardTextMenu"></v-textarea>
-                        <v-text-field :label="$t('item.patreonLink')" v-model="values.patreon" prefix="https://patreon.com/" @paste="patreonLinkPaste" @contextmenu="showStandardTextMenu"></v-text-field>
-                        <v-text-field :label="$t('item.www')" v-model="values.www" :rules="[validationRules.url]" @contextmenu="showStandardTextMenu"></v-text-field>
+                        <v-text-field v-if="settings.patreonLinkVisibility === 'show'" :label="$t('item.patreonLink')" v-model="values.patreon" prefix="https://patreon.com/" @paste="patreonLinkPaste" @contextmenu="showStandardTextMenu"></v-text-field>
+                        <v-text-field v-if="settings.wwwLinkVisibility === 'show'" :label="$t('item.www')" v-model="values.www" :rules="[validationRules.url]" @contextmenu="showStandardTextMenu"></v-text-field>
+                        <v-text-field v-if="settings.f95LinkVisibility === 'show'" :label="$t('item.f95link')" v-model="values.f95" prefix="https://f95zone.to/threads/" @paste="f95LinkPaste" @contextmenu="showStandardTextMenu" append-icon="cloud_download" @click:append="downloadMetadataFromF95"></v-text-field>
+                        <v-text-field v-if="settings.itchLinkVisibility === 'show'" :label="$t('item.itchLink')" v-model="values.itch" :rules="[validationRules.url]" @contextmenu="showStandardTextMenu"></v-text-field>
                         <span class="grey--text text--darken-2">{{ $t('item.rating') }}</span>
                         <v-rating v-model="values.rating" hover></v-rating>
                         <span class="grey--text text--darken-2">{{ $t('item.tags') }}</span>
@@ -102,6 +104,22 @@
                             </v-card>
                         </v-expansion-panel-content>
 
+                        <v-expansion-panel-content v-if="showAdditionalDataPanel">
+                            <template #header>
+                                <div><v-icon small>widgets</v-icon> {{ $t('item.additionalData') }}</div>
+                            </template>
+                            <v-card class="mx-3">
+                                <v-card-title primary-title>
+                                    <v-flex xs12 sm12 md12>
+                                        <v-text-field v-if="settings.patreonLinkVisibility === 'panel'" :label="$t('item.patreonLink')" v-model="values.patreon" prefix="https://patreon.com/" @paste="patreonLinkPaste" @contextmenu="showStandardTextMenu"></v-text-field>
+                                        <v-text-field v-if="settings.wwwLinkVisibility === 'panel'" :label="$t('item.www')" v-model="values.www" :rules="[validationRules.url]" @contextmenu="showStandardTextMenu"></v-text-field>
+                                        <v-text-field v-if="settings.f95LinkVisibility === 'panel'" :label="$t('item.f95link')" v-model="values.f95" prefix="https://f95zone.to/threads/" @paste="f95LinkPaste" @contextmenu="showStandardTextMenu" append-icon="cloud_download" @click:append="downloadMetadataFromF95"></v-text-field>
+                                        <v-text-field v-if="settings.itchLinkVisibility === 'panel'" :label="$t('item.itchLink')" v-model="values.itch" :rules="[validationRules.url]" @contextmenu="showStandardTextMenu"></v-text-field>
+                                    </v-flex>
+                                </v-card-title>
+                            </v-card>
+                        </v-expansion-panel-content>
+
                         <v-expansion-panel-content>
                             <template #header>
                                 <div><v-icon small>public</v-icon> {{ $t('links') }}</div>
@@ -179,6 +197,8 @@
                     rating : 0,
                     patreon : '',
                     www : '',
+                    f95 : '',
+                    itch : '',
                     inDevelopment : false,
                     favorite : false,
                     archived : false,
@@ -283,6 +303,27 @@
             patreonLink () {
                 return this.values.patreon;
             },
+
+            settings () {
+                return this.$store.getters.settings;
+            },
+
+            /**
+             * Detects if settings are set in a way that requires additional data panel to be shown.
+             *
+             * @return {boolean} true if panel will be shown
+             */
+            showAdditionalDataPanel () {
+                const configItems = ['patreonLinkVisibility', 'wwwLinkVisibility', 'f95LinkVisibility', 'itchLinkVisibility'];
+                const settings    = this.$store.getters.settings;
+
+                for (let i of configItems) {
+                    if (settings[i] === 'panel') {
+                        return true;
+                    }
+                }
+                return false;
+            },
         },
 
         methods : {
@@ -299,9 +340,20 @@
                         // clipboard contains url
                         const match = /(https:\/\/)?(www\.)?patreon.com\/(.*)/.exec(text);
                         if (match) {
-                            this.values.patreon = match[match.length - 1];
+                            if (this.settings.patreonLinkVisibility === 'show') {
+                                this.values.patreon = match[match.length - 1];
+                            }
                         } else {
-                            this.values.www = text;
+                            const match = /(https:\/\/)?(www\.)?f95zone\.to\/threads\/(.*)/.exec(text);
+                            if (match) {
+                                if (this.settings.f95LinkVisibility === 'show') {
+                                    this._extractF95Topic(match);
+                                }
+                            } else {
+                                if (this.settings.wwwLinkVisibility === 'show') {
+                                    this.values.www = text;
+                                }
+                            }
                         }
                     }
                 }
@@ -321,6 +373,9 @@
                 this.values.tags          = item.tags;
                 this.values.completed     = item.completed;
                 this.avatarImage          = item.avatarImage;
+
+                if ('f95' in item) this.values.f95 = item.f95;
+                if ('itch' in item) this.values.itch = item.itch;
 
                 if (item.category) {
                     this.values.categoryId = item.category.id;
@@ -351,6 +406,8 @@
                 this.values.rating = 0;
                 this.values.patreon = '';
                 this.values.www = '';
+                this.values.f95 = '';
+                this.values.itch = '';
                 this.values.inDevelopment = false;
                 this.values.favorite = false;
                 this.values.archived = false;
@@ -397,6 +454,8 @@
                     rating        : this.values.rating,
                     patreon       : this.values.patreon,
                     www           : this.values.www,
+                    f95           : this.values.f95,
+                    itch          : this.values.itch,
                     inDevelopment : this.values.inDevelopment,
                     completed     : this.values.completed,
                     archived      : this.values.archived,
@@ -503,11 +562,46 @@
                         return;
                     }
 
-                    const match = /(https:\/\/)?(www\.)?patreon.com\/(.*)/.exec(this.values.patreon);
+                    const match = /(https:\/\/)?(www\.)?patreon\.com\/(.*)/.exec(this.values.patreon);
                     if (match) {
                         this.values.patreon = match[match.length - 1];
                     }
                 }, 500);
+            },
+
+            /**
+             * Extracts topic name from F95 links.
+             */
+            f95LinkPaste () {
+                setTimeout(() => {
+                    if (!this.values.f95) {
+                        return;
+                    }
+
+                    const match = /(https:\/\/)?(www\.)?f95zone\.to\/threads\/(.*)/.exec(this.values.f95);
+                    if (match) {
+                        this._extractF95Topic(match);
+                    }
+                }, 500);
+            },
+
+            /**
+             * Extracts F95 topic from regexp result.
+             */
+            _extractF95Topic (match) {
+                let topicPath = match[match.length - 1];
+                if (topicPath.lastIndexOf('/') > 0) {
+                    topicPath = topicPath.substr(0, topicPath.lastIndexOf('/')); // cut out page number
+                }
+
+                this.values.f95 = topicPath;
+            },
+
+            /**
+             * Downloads metadata directly from F95 topic
+             */
+            downloadMetadataFromF95 () {
+                // TODO
             },
 
             /**

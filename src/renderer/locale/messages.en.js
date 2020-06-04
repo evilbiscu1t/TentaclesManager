@@ -72,6 +72,8 @@ export default {
     'item.screenshots' : 'Screenshots',
     'item.patreonLink' : 'Patreon Link',
     'item.www' : 'Web Page',
+    'item.f95link' : 'F95 Zone Link',
+    'item.itchLink' : 'Itch.io Link',
     'item.inDevelopment' : 'In Development',
     'item.completed' : 'Completed',
     'item.favorite' : 'Favorite',
@@ -79,6 +81,7 @@ export default {
     'item.tags' : 'Tags',
     'item.archived' : 'Archived',
     'item.category' : 'Category',
+    'item.additionalData' : 'Additional Data',
 
     'item.addNew' : 'Add new item',
     'item.screen.openFromFile' : 'Open from file',
@@ -93,6 +96,10 @@ export default {
     'settings.linkClickAction.open' : 'Open in a browser',
     'settings.linkClickAction.copy' : 'Copy to clipboard',
     'settings.linkClickAction.ask' : 'Ask what to do',
+    'settings.propertiesVisibility' : 'Properties Visibility',
+    'settings.fieldVisibilityOption.show' : 'Show',
+    'settings.fieldVisibilityOption.showInPanel' : 'Show in additional data panel',
+    'settings.fieldVisibilityOption.hide' : 'Hide',
 
     'category.edit' : 'Edit Category',
     'category.name' : 'Name',

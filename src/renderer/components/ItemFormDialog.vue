@@ -350,8 +350,14 @@
                                     this._extractF95Topic(match);
                                 }
                             } else {
-                                if (this.settings.wwwLinkVisibility === 'show') {
-                                    this.values.www = text;
+                                if (text.indexOf('itch.io') > -1) {
+                                    if (this.settings.itchLinkVisibility === 'show') {
+                                        this.values.itch = text;
+                                    }
+                                } else {
+                                    if (this.settings.wwwLinkVisibility === 'show') {
+                                        this.values.www = text;
+                                    }
                                 }
                             }
                         }
@@ -601,7 +607,25 @@
              * Downloads metadata directly from F95 topic
              */
             downloadMetadataFromF95 () {
-                // TODO
+                if (!this.values.f95) {
+                    return;
+                }
+
+                this.$emit('loading-status-changed', true);
+                mainProcess.downloadF95Metadata(this.values.f95, data => {
+                    this.$emit('loading-status-changed', false);
+
+                    this.values.name = data.title;
+
+                    if (data.completed) {
+                        this.values.completed = true;
+                    }
+
+                    //data.version; todo version support
+                    this.values.tags = data.tags;
+
+                    this.$refs.tagInput.setTags(data.tags.slice(0));
+                });
             },
 
             /**

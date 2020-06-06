@@ -87,12 +87,18 @@ export default {
     'item.archived' : 'Archiwum',
     'item.category' : 'Kategoria',
     'item.additionalData' : 'Dane dodatkowe',
+    'item.currentVersion' : 'Aktualna wersja',
+    'item.ownedVersion' : 'Posiadana wersja',
+    'item.currentOwnedVersion' : 'Aktualna/Posiadana wersja',
 
     'item.addNew' : 'Dodaj nową pozycję',
     'item.screen.openFromFile' : 'Otwórz z pliku',
     'item.screen.loadFromUrl' : 'Wczytaj z URL',
     'item.screen.loadClipboard' : 'Wklej',
     'item.screen.createIcon' : 'Utwórz ikonkę',
+    'item.updateCurrentVersion' : 'Odśwież informacje o aktualnej wersji',
+    'item.currentVersionUpdated' : 'Dostępna jest nowa wersja projektu.',
+    'item.currentVersionNotUpdated' : 'Brak nowej wersji projektu.',
 
     'settings' : 'Ustawienia',
     'settings.addCategory' : 'Dodaj kategorię',

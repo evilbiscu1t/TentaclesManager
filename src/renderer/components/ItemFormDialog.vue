@@ -22,6 +22,8 @@
                         <v-text-field v-if="settings.wwwLinkVisibility === 'show'" :label="$t('item.www')" v-model="values.www" :rules="[validationRules.url]" @contextmenu="showStandardTextMenu"></v-text-field>
                         <v-text-field v-if="settings.f95LinkVisibility === 'show'" :label="$t('item.f95link')" v-model="values.f95" prefix="https://f95zone.to/threads/" @paste="f95LinkPaste" @contextmenu="showStandardTextMenu" append-icon="cloud_download" @click:append="downloadMetadataFromF95"></v-text-field>
                         <v-text-field v-if="settings.itchLinkVisibility === 'show'" :label="$t('item.itchLink')" v-model="values.itch" :rules="[validationRules.url]" @contextmenu="showStandardTextMenu"></v-text-field>
+                        <v-text-field v-if="settings.currentVersionVisibility === 'show'" :label="$t('item.currentVersion')" v-model="values.currentVersion" @contextmenu="showStandardTextMenu"></v-text-field>
+                        <v-text-field v-if="settings.ownedVersionVisibility === 'show'" :label="$t('item.ownedVersion')" v-model="values.ownedVersion" @contextmenu="showStandardTextMenu"></v-text-field>
                         <span class="grey--text text--darken-2">{{ $t('item.rating') }}</span>
                         <v-rating v-model="values.rating" hover></v-rating>
                         <span class="grey--text text--darken-2">{{ $t('item.tags') }}</span>
@@ -115,6 +117,8 @@
                                         <v-text-field v-if="settings.wwwLinkVisibility === 'panel'" :label="$t('item.www')" v-model="values.www" :rules="[validationRules.url]" @contextmenu="showStandardTextMenu"></v-text-field>
                                         <v-text-field v-if="settings.f95LinkVisibility === 'panel'" :label="$t('item.f95link')" v-model="values.f95" prefix="https://f95zone.to/threads/" @paste="f95LinkPaste" @contextmenu="showStandardTextMenu" append-icon="cloud_download" @click:append="downloadMetadataFromF95"></v-text-field>
                                         <v-text-field v-if="settings.itchLinkVisibility === 'panel'" :label="$t('item.itchLink')" v-model="values.itch" :rules="[validationRules.url]" @contextmenu="showStandardTextMenu"></v-text-field>
+                                        <v-text-field v-if="settings.currentVersionVisibility === 'panel'" :label="$t('item.currentVersion')" v-model="values.currentVersion" @contextmenu="showStandardTextMenu"></v-text-field>
+                                        <v-text-field v-if="settings.ownedVersionVisibility === 'panel'" :label="$t('item.ownedVersion')" v-model="values.ownedVersion" @contextmenu="showStandardTextMenu"></v-text-field>
                                     </v-flex>
                                 </v-card-title>
                             </v-card>
@@ -199,6 +203,8 @@
                     www : '',
                     f95 : '',
                     itch : '',
+                    currentVersion : '',
+                    ownedVersion : '',
                     inDevelopment : false,
                     favorite : false,
                     archived : false,
@@ -314,7 +320,8 @@
              * @return {boolean} true if panel will be shown
              */
             showAdditionalDataPanel () {
-                const configItems = ['patreonLinkVisibility', 'wwwLinkVisibility', 'f95LinkVisibility', 'itchLinkVisibility'];
+                const configItems = ['patreonLinkVisibility', 'wwwLinkVisibility', 'f95LinkVisibility', 'itchLinkVisibility',
+                    'currentVersionVisibility', 'ownedVersionVisibility'];
                 const settings    = this.$store.getters.settings;
 
                 for (let i of configItems) {
@@ -382,6 +389,8 @@
 
                 if ('f95' in item) this.values.f95 = item.f95;
                 if ('itch' in item) this.values.itch = item.itch;
+                if ('currentVersion' in item) this.values.currentVersion = item.currentVersion;
+                if ('ownedVersion' in item) this.values.ownedVersion = item.ownedVersion;
 
                 if (item.category) {
                     this.values.categoryId = item.category.id;
@@ -414,6 +423,8 @@
                 this.values.www = '';
                 this.values.f95 = '';
                 this.values.itch = '';
+                this.values.currentVersion = '';
+                this.values.ownedVersion = '';
                 this.values.inDevelopment = false;
                 this.values.favorite = false;
                 this.values.archived = false;
@@ -467,6 +478,8 @@
                     archived      : this.values.archived,
                     favorite      : this.values.favorite,
                     links         : this.values.links,
+                    currentVersion: this.values.currentVersion,
+                    ownedVersion  : this.values.ownedVersion,
                     category,
 
                     tags          : this.$refs.tagInput.getTags(),
@@ -621,7 +634,10 @@
                         this.values.completed = true;
                     }
 
-                    //data.version; todo version support
+                    if (data.version && this.settings.currentVersionVisibility !== 'hide') {
+                        this.values.currentVersion = data.version;
+                    }
+
                     this.values.tags = data.tags;
 
                     this.$refs.tagInput.setTags(data.tags.slice(0));

@@ -82,12 +82,18 @@ export default {
     'item.archived' : 'Archived',
     'item.category' : 'Category',
     'item.additionalData' : 'Additional Data',
+    'item.currentVersion' : 'Current Version',
+    'item.ownedVersion' : 'Owned Version',
+    'item.currentOwnedVersion' : 'Current/Owned Version',
 
     'item.addNew' : 'Add new item',
     'item.screen.openFromFile' : 'Open from file',
     'item.screen.loadFromUrl' : 'Load from URL',
     'item.screen.loadClipboard' : 'Paste',
     'item.screen.createIcon' : 'Create icon',
+    'item.updateCurrentVersion' : 'Update current version info',
+    'item.currentVersionUpdated' : 'A new version of the project is available.',
+    'item.currentVersionNotUpdated' : 'No newer version of the project.',
 
     'settings' : 'Settings',
     'settings.addCategory' : 'Add Category',

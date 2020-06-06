@@ -6,6 +6,8 @@
             <v-select :label="$t('item.www')" :items="fieldVisibilityOptions" v-model="wwwLinkVisibility"></v-select>
             <v-select :label="$t('item.f95link')" :items="fieldVisibilityOptions" v-model="f95LinkVisibility"></v-select>
             <v-select :label="$t('item.itchLink')" :items="fieldVisibilityOptions" v-model="itchLinkVisibility"></v-select>
+            <v-select :label="$t('item.currentVersion')" :items="fieldVisibilityOptions" v-model="currentVersionVisibility"></v-select>
+            <v-select :label="$t('item.ownedVersion')" :items="fieldVisibilityOptions" v-model="ownedVersionVisibility"></v-select>
         </v-card-text>
     </v-card>
 </template>
@@ -51,6 +53,22 @@
                 },
                 set (value) {
                     this.$store.dispatch('updateItchLinkVisibility', value);
+                }
+            },
+            currentVersionVisibility : {
+                get () {
+                    return this.$store.getters.settings.currentVersionVisibility;
+                },
+                set (value) {
+                    this.$store.dispatch('updateCurrentVersionVisibility', value);
+                }
+            },
+            ownedVersionVisibility : {
+                get () {
+                    return this.$store.getters.settings.ownedVersionVisibility;
+                },
+                set (value) {
+                    this.$store.dispatch('updateOwnedVersionVisibility', value);
                 }
             },
         },

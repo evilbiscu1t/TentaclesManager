@@ -54,9 +54,11 @@ const state = {
         patreonClickAction : 'open',
 
         patreonLinkVisibility: 'show',
-        wwwLinkVisibility: 'show',
-        f95LinkVisibility: 'panel',
+        wwwLinkVisibility: 'panel',
+        f95LinkVisibility: 'show',
         itchLinkVisibility: 'panel',
+        currentVersionVisibility : 'panel',
+        ownedVersionVisibility : 'hide',
     },
 };
 
@@ -84,6 +86,14 @@ const mutations = {
 
         if ('itchLinkVisibility' in settings) {
             state.settings.itchLinkVisibility = settings.itchLinkVisibility;
+        }
+
+        if ('currentVersionVisibility' in settings) {
+            state.settings.currentVersionVisibility = settings.currentVersionVisibility;
+        }
+
+        if ('ownedVersionVisibility' in settings) {
+            state.settings.ownedVersionVisibility = settings.ownedVersionVisibility;
         }
     },
 
@@ -113,6 +123,14 @@ const mutations = {
 
     SET_SETTINGS_ITCH_LINK_VISIBILITY (state, visibility) {
         state.settings.itchLinkVisibility = visibility;
+    },
+
+    SET_SETTINGS_CURRENT_VERSION_VISIBILITY (state, visibility) {
+        state.settings.currentVersionVisibility = visibility;
+    },
+
+    SET_SETTINGS_OWNED_VERSION_VISIBILITY (state, visibility) {
+        state.settings.ownedVersionVisibility = visibility;
     },
 
     SET_DB_PASSWORD (state, password) {
@@ -382,13 +400,37 @@ const actions = {
     },
 
     /**
-     * Updates F95 link visibility settings.
+     * Updates Itch.io link visibility settings.
      *
      * @param {Object} context Store context.
      * @param {string} visibility New visibility value.
      */
     updateItchLinkVisibility (context, visibility) {
         context.commit('SET_SETTINGS_ITCH_LINK_VISIBILITY', visibility);
+
+        return saveSettingsToDb(context);
+    },
+
+    /**
+     * Updates current version text field visibility settings.
+     *
+     * @param {Object} context Store context.
+     * @param {string} visibility New visibility value.
+     */
+    updateCurrentVersionVisibility (context, visibility) {
+        context.commit('SET_SETTINGS_CURRENT_VERSION_VISIBILITY', visibility);
+
+        return saveSettingsToDb(context);
+    },
+
+    /**
+     * Updates owned version text field visibility settings.
+     *
+     * @param {Object} context Store context.
+     * @param {string} visibility New visibility value.
+     */
+    updateOwnedVersionVisibility (context, visibility) {
+        context.commit('SET_SETTINGS_OWNED_VERSION_VISIBILITY', visibility);
 
         return saveSettingsToDb(context);
     },

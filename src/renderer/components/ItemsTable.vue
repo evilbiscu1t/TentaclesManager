@@ -203,7 +203,7 @@
             f95LinkClicked (link) {
                 this.clickedLink = 'https://f95zone.to/threads/' + link;
 
-                switch (this.$store.getters.settings.linkClickAction) {
+                switch (this.$store.getters.settings.f95ClickAction) {
                     case 'open':
                         this.openLink();
                         break;

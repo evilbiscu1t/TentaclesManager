@@ -52,6 +52,7 @@ const state = {
         imageQuality : 85,
         linkClickAction : 'open',
         patreonClickAction : 'open',
+        f95ClickAction : 'open',
 
         patreonLinkVisibility: 'show',
         wwwLinkVisibility: 'panel',
@@ -71,6 +72,10 @@ const mutations = {
         state.settings.imageQuality = settings.imageQuality;
         state.settings.linkClickAction = settings.linkClickAction;
         state.settings.patreonClickAction = settings.patreonClickAction;
+
+        if ('f95ClickAction' in settings) {
+            state.settings.f95ClickAction = settings.f95ClickAction;
+        }
 
         if ('patreonLinkVisibility' in settings) {
             state.settings.patreonLinkVisibility = settings.patreonLinkVisibility;
@@ -107,6 +112,10 @@ const mutations = {
 
     SET_SETTINGS_PATREON_CLICK_ACTION (state, clickAction) {
         state.settings.patreonClickAction = clickAction;
+    },
+
+    SET_SETTINGS_F95_CLICK_ACTION (state, clickAction) {
+        state.settings.f95ClickAction = clickAction;
     },
 
     SET_SETTINGS_PATREON_LINK_VISIBILITY (state, visibility) {
@@ -359,6 +368,19 @@ const actions = {
      */
     updatePatreonClickAction (context, clickAction) {
         context.commit('SET_SETTINGS_PATREON_CLICK_ACTION', clickAction);
+
+        return saveSettingsToDb(context);
+    },
+
+    /**
+     * Updates F95 link click action setting.
+     *
+     * @param {Object} context Store context.
+     * @param {string} clickAction New click action.
+     * @returns {Promise<void>}
+     */
+    updateF95ClickAction (context, clickAction) {
+        context.commit('SET_SETTINGS_F95_CLICK_ACTION', clickAction);
 
         return saveSettingsToDb(context);
     },

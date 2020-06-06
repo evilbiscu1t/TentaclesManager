@@ -99,6 +99,7 @@ export default {
     'settings.addCategory' : 'Add Category',
     'settings.linkClickAction' : 'After clicking the link',
     'settings.patreonClickAction' : 'After clicking the link to Patreon',
+    'settings.f95ClickAction' : 'After clicking the link to F95 Zone',
     'settings.linkClickAction.open' : 'Open in a browser',
     'settings.linkClickAction.copy' : 'Copy to clipboard',
     'settings.linkClickAction.ask' : 'Ask what to do',

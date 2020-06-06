@@ -29,6 +29,7 @@
                                 <v-card-text>
                                     <v-select :label="$t('settings.linkClickAction')" :items="linkOptions" v-model="values.linkClickAction"></v-select>
                                     <v-select :label="$t('settings.patreonClickAction')" :items="linkOptions" v-model="values.patreonClickAction"></v-select>
+                                    <v-select :label="$t('settings.f95ClickAction')" :items="linkOptions" v-model="values.f95ClickAction"></v-select>
                                     <v-tooltip top>
                                         <template #activator="{on}">
                                             <v-subheader class="pl-0" v-on="on">{{ $t('imagesQuality') }}</v-subheader>
@@ -104,6 +105,7 @@
                     imageQuality : 85,
                     linkClickAction : 'open',
                     patreonClickAction : 'open',
+                    f95ClickAction : 'open',
                 },
 
                 linkOptions : [],
@@ -218,6 +220,7 @@
                             imageQuality : this.values.imageQuality,
                             linkClickAction : this.values.linkClickAction,
                             patreonClickAction : this.values.patreonClickAction,
+                            f95ClickAction : this.values.f95ClickAction,
                         }
                     );
 

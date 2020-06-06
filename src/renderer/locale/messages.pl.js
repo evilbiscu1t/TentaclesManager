@@ -104,6 +104,7 @@ export default {
     'settings.addCategory' : 'Dodaj kategorię',
     'settings.linkClickAction' : 'Po kliknięciu w link',
     'settings.patreonClickAction' : 'Po kliknięciu w link do serwisu Patreon',
+    'settings.f95ClickAction' : 'Po kliknięciu w link do serwisu F95 Zone',
     'settings.linkClickAction.open' : 'Otwórz w przeglądarce',
     'settings.linkClickAction.copy' : 'Kopiuj do schowka',
     'settings.linkClickAction.ask' : 'Zapytaj co robić',

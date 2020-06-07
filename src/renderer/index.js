@@ -1,5 +1,6 @@
 import 'vuetify/dist/vuetify.min.css';
 import 'material-design-icons-iconfont/dist/material-design-icons.css';
+import './style.css';
 
 import './plugins/vuetify.js';
 import {i18n} from './plugins/i18n.js';

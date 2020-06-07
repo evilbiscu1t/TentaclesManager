@@ -351,7 +351,7 @@
                                 this.values.patreon = match[match.length - 1];
                             }
                         } else {
-                            const match = /(https:\/\/)?(www\.)?f95zone\.to\/threads\/(.*)/.exec(text);
+                            const match = /(https:\/\/)?(www\.)?f95zone\.(to|com)\/threads\/(.*)/.exec(text);
                             if (match) {
                                 if (this.settings.f95LinkVisibility === 'show') {
                                     this._extractF95Topic(match);
@@ -597,7 +597,7 @@
                         return;
                     }
 
-                    const match = /(https:\/\/)?(www\.)?f95zone\.to\/threads\/(.*)/.exec(this.values.f95);
+                    const match = /(https:\/\/)?(www\.)?f95zone\.(to|com)\/threads\/(.*)/.exec(this.values.f95);
                     if (match) {
                         this._extractF95Topic(match);
                     }

@@ -4,86 +4,13 @@ import { format as formatUrl } from 'url';
 import querystring from 'querystring';
 import fs from 'fs';
 import fetch from 'node-fetch';
-import domparser from "html-dom-parser";
 
 import applicationMenu from './application-menu.js';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 const appWindows    = new Map();
 
-/**
- * Downloads metadata from F95 topic.
- *
- * TODO: extract to separate file?
- * @param {string} topicPath Path to the topic.
- * @param {function} callback Callback to call after data is parsed.
- */
-export function downloadF95Metadata(topicPath, callback) {
-    fetch('https://f95zone.to/threads/' + topicPath)
-        .then(res => res.text())
-        .then(body => {
-            let match     = body.match(/<li class="groupedTags">(.|\s)+?<\/li>/m);
-            let tagsList  = [];
-            let title     = '';
-            let completed = false;
-            let version   = '';
-
-            if (match) {
-                const tagsDom = domparser(match[0]);
-
-                if (tagsDom && tagsDom.length) {
-                    for (let tag of tagsDom[0].children) {
-                        if (tag.name === 'a') {
-                            if (tag.children && tag.children.length && tag.children[0].type === 'text') {
-                                tagsList.push(tag.children[0].data);
-                            }
-                        }
-                    }
-                }
-            }
-
-            match = body.match(/<h1 class="p-title-value">(.|\s)+?<\/h1>/m);
-
-            if (match) {
-                const titleDom = domparser(match[0]);
-                let titleText  = '';
-
-                if (titleDom && titleDom.length) {
-                    for (let elem of titleDom[0].children) {
-                        if (elem.type === 'text') {
-                            titleText = elem.data;
-                        } else if (elem.name === 'a') {
-                            if (elem.children && elem.children.length) {
-                                if (elem.children[0].name === 'span' && elem.children[0].children && elem.children[0].children.length) {
-                                    if (elem.children[0].children[0].type === 'text' && elem.children[0].children[0].data.toLowerCase() === '[completed]') {
-                                        completed = true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                let versionMatch = titleText.match(/\[(.+?)\]/);
-                if (versionMatch) {
-                    version = versionMatch[1];
-                }
-
-                if (titleText.indexOf('[') > 0) {
-                    titleText = titleText.substring(0, titleText.indexOf('['));
-                }
-
-                title = titleText.trim();
-            }
-
-            callback({
-                title,
-                version,
-                tags : tagsList,
-                completed,
-            });
-        });
-}
+export * from './download';
 
 /**
  * Opens new app window.

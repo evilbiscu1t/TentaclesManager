@@ -110,6 +110,23 @@ export default {
     },
 
     /**
+     * Finds all items that can have automatic version download.
+     *
+     * @return {Promise<Array, Error>}
+     */
+    findAllForVersionUpdate () {
+        return new Promise((resolve, reject) => {
+            databaseManager.getItemsDb().find({ f95: { $exists: true, $ne: '' }, archived: false }, (err, items) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(items);
+                }
+            });
+        });
+    },
+
+    /**
      * Updates category data in all items that are assigned to this category.
      *
      * @param {string} categoryId Category ID.
@@ -217,6 +234,10 @@ export default {
 
         if (typeof filters.favorites !== 'undefined') {
             params.favorite = filters.favorites;
+        }
+
+        if (typeof filters.updated !== 'undefined' && filters.updated) {
+            params.updated = true;
         }
 
         if (filters.name) {

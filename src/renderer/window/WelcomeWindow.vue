@@ -7,7 +7,7 @@
                         <div class="text-xs-center">
                             <img :src="logoImageUrl" width="50%"  alt="logo" />
                             <h4 class="display-1">Tentacles Manager</h4>
-                            <p class="subheading">{{ $t('version', {vNumber: '1.2'}) }}</p>
+                            <p class="subheading">{{ $t('version', {vNumber: '1.3'}) }}</p>
                             <p class="caption">By <a href="https://github.com/evilbiscu1t/TentaclesManager" title="Github page" @click="openWebLink">EvilBiscuit</a></p>
                             <div class="pt-5">
                                 <v-btn dark class="deep-purple" @click="createDatabase">

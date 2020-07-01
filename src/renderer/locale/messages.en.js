@@ -34,6 +34,7 @@ export default {
     'uncategorized' : 'Uncategorized',
     'orderBy' : 'Order By',
     'totalItems' : 'Total items',
+    'updating' : 'Updating',
     'duplicatesWarning' : 'Other items where found with the same Patreon link: {names}',
 
     'createNewDatabase' : 'Create New Database',
@@ -65,6 +66,7 @@ export default {
     'dialog.changeDatabasePassword' : 'Change password for: {name}',
     'dialog.deleteItemTitle' : 'Remove item?',
     'dialog.deleteItemWarning' : 'Are you sure to delete: {name}?',
+    'dialog.updatingVersionInfo' : 'Updating version info...',
 
     'item.name' : 'Name',
     'item.rating' : 'Rating',
@@ -94,6 +96,10 @@ export default {
     'item.updateCurrentVersion' : 'Update current version info',
     'item.currentVersionUpdated' : 'A new version of the project is available.',
     'item.currentVersionNotUpdated' : 'No newer version of the project.',
+    'item.updateVersionsInfo' : 'Update versions info',
+    'dialog.updateComplete' : 'Update complete',
+    'dialog.updateCompleteInfo' : 'Updated {updated} / {total}.',
+    'dialog.savingData' : 'Saving data...',
 
     'settings' : 'Settings',
     'settings.addCategory' : 'Add Category',
@@ -128,6 +134,7 @@ export default {
     'navigation.archived' : 'Archived',
     'navigation.categories' : 'Categories',
     'navigation.settings' : 'Settings',
+    'navigation.updated' : 'Updated',
 
     'error.dbNotExists' : 'Selected database is not present on the disk.',
     'error.incorrectDatabaseFormat' : 'Selected database is incorrect. Make sure that you have chosen directory created by Tentacles Manager.',

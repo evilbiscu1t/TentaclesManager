@@ -13,6 +13,14 @@
                     </template>
                     <span>{{ $t('item.addNew') }}</span>
                 </v-tooltip>
+                <v-tooltip bottom>
+                    <template #activator="{ on }">
+                        <v-btn flat icon color="blue" v-on="on" @click="updateAllItemsVersion" v-show="filters.updated">
+                            <v-icon>sync</v-icon>
+                        </v-btn>
+                    </template>
+                    <span>{{ $t('item.updateVersionsInfo') }}</span>
+                </v-tooltip>
                 <v-menu :close-on-content-click="false" v-model="isFilterVisible"
                         :nudge-width="400"
                         offset-y>
@@ -45,6 +53,7 @@
                         @show-all="showAll"
                         @show-archive="showArchive"
                         @show-category="showCategory"
+                        @show-updated="showUpdated"
             />
         </nav>
 
@@ -97,6 +106,7 @@
 
         <SettingsDialog :is-visible="showSettings" @hide-dialog="showSettings = false" @loading-status-changed="setLoading" @category-updated="countItems" @tag-updated="countItems" />
         <ScreenshotsDialog ref="screenshotsDialog" />
+        <DownloadVersionsDialog ref="downloadVersionsDialog" @update-complete="countItems" />
 
         <v-snackbar v-model="infoSnackbarOpened" :timeout="3000" bottom>
             {{ infoSnackbarMessage }}
@@ -119,6 +129,7 @@
     import itemRepository from '../repository/ItemRepository.js';
     import {loadAvatars, loadScreenshots} from '../operations/ImagesLoader.js';
     import DeleteItemOperation from '../operations/DeleteItem.js';
+    import DownloadVersionsDialog from "../components/DownloadVersionsDialog";
 
     export default {
         name: 'MainWindow',
@@ -206,6 +217,11 @@
                      * If true only fav items will be shown.
                      */
                     favorites : undefined,
+
+                    /**
+                     * If true only updated items will be shown.
+                     */
+                    updated : undefined,
 
                     /**
                      * If true only archived items will be shown.
@@ -340,6 +356,13 @@
             },
 
             /**
+             * Updates all item versions.
+             */
+            updateAllItemsVersion () {
+                this.$refs.downloadVersionsDialog.start();
+            },
+
+            /**
              * Performs items count and reloads items list.
              */
             countItems () {
@@ -441,6 +464,16 @@
                 this.filters.category = undefined;
                 this.filters.favorites = true;
                 this.filters.archived = false;
+                this.filters.updated = undefined;
+
+                this.countItems();
+            },
+
+            showUpdated () {
+                this.filters.category = undefined;
+                this.filters.favorites = undefined;
+                this.filters.archived = false;
+                this.filters.updated = true;
 
                 this.countItems();
             },
@@ -449,6 +482,7 @@
                 this.filters.category = undefined;
                 this.filters.favorites = undefined;
                 this.filters.archived = false;
+                this.filters.updated = undefined;
 
                 this.countItems();
             },
@@ -457,6 +491,7 @@
                 this.filters.category = undefined;
                 this.filters.favorites = undefined;
                 this.filters.archived = true;
+                this.filters.updated = undefined;
 
                 this.countItems();
             },
@@ -465,6 +500,7 @@
                 this.filters.category = categoryId;
                 this.filters.favorites = undefined;
                 this.filters.archived = false;
+                this.filters.updated = undefined;
 
                 this.countItems();
             },
@@ -507,6 +543,7 @@
         },
 
         components : {
+            DownloadVersionsDialog,
             SortPanel,
             Navigation,
             UnlockDialog,

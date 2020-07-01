@@ -149,13 +149,13 @@
 
                 this.currentVersionLoading = true;
 
-                mainProcess.downloadF95Metadata(item.f95, data => {
+                mainProcess.downloadF95Version(item.f95, version => {
                     this.currentVersionLoading = false;
 
-                    if (data.version && data.version !== item.currentVersion) {
-                        item.currentVersion = data.version;
+                    if (version !== false && version !== item.currentVersion) {
+                        item.currentVersion = version;
 
-                        itemRepository.update(item._id, { currentVersion: item.currentVersion });
+                        itemRepository.update(item._id, { currentVersion: version });
 
                         this.$emit('show-info', this.$t('item.currentVersionUpdated'));
                     } else {

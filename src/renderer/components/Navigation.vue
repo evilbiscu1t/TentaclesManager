@@ -31,6 +31,16 @@
                 </v-list-tile-content>
             </v-list-tile>
 
+            <v-list-tile @click="$emit('show-updated')" v-model="showUpdated" active-class="deep-purple--text text--lighten-2" ripple>
+                <v-list-tile-action>
+                    <v-icon>sync</v-icon>
+                </v-list-tile-action>
+
+                <v-list-tile-content>
+                    <v-list-tile-title>{{ $t('navigation.updated') }}</v-list-tile-title>
+                </v-list-tile-content>
+            </v-list-tile>
+
             <v-list-group prepend-icon="category" no-action active-class="deep-purple--text text--lighten-2" v-if="categories.length">
                 <template #activator>
                     <v-list-tile>
@@ -98,6 +108,8 @@
                 showFav : false,
 
                 showArchive : false,
+
+                showUpdated : false,
             };
         },
 
@@ -107,9 +119,10 @@
         watch : {
             filters : {
                 handler : function (newValue) {
-                    this.showAll     = !newValue.category && !newValue.favorites && !newValue.archived;
+                    this.showAll     = !newValue.category && !newValue.favorites && !newValue.archived && !newValue.updated;
                     this.showFav     = !!newValue.favorites;
                     this.showArchive = newValue.archived;
+                    this.showUpdated = !!newValue.updated;
                 },
                 deep : true
             }

@@ -34,6 +34,7 @@ export default {
     'uncategorized' : 'Bez kategorii',
     'orderBy' : 'Kolejność wyświetlania',
     'totalItems' : 'Liczba pozycji',
+    'updating' : 'Aktualizacja',
     'duplicatesWarning' : 'Znaleziono inne pozycje z tym samym linkiem do Patreon: {names}',
 
     'createNewDatabase' : 'Utwórz nową bazę danych',
@@ -70,6 +71,10 @@ export default {
     'dialog.changeDatabasePassword' : 'Zmiana hasła dla: {name}',
     'dialog.deleteItemTitle' : 'Usunąć pozycję?',
     'dialog.deleteItemWarning' : 'Czy na pewno usunąć: {name}?',
+    'dialog.updatingVersionInfo' : 'Aktualizacja wersji aplikacji...',
+    'dialog.updateComplete' : 'Aktualizacja zakończona',
+    'dialog.updateCompleteInfo' : 'Zaktualizowano {updated} / {total}.',
+    'dialog.savingData' : 'Zapisywanie danych...',
 
     'item.name' : 'Nazwa',
     'item.rating' : 'Ocena',
@@ -99,6 +104,7 @@ export default {
     'item.updateCurrentVersion' : 'Odśwież informacje o aktualnej wersji',
     'item.currentVersionUpdated' : 'Dostępna jest nowa wersja projektu.',
     'item.currentVersionNotUpdated' : 'Brak nowej wersji projektu.',
+    'item.updateVersionsInfo' : 'Aktualizacja informacji o wersjach',
 
     'settings' : 'Ustawienia',
     'settings.addCategory' : 'Dodaj kategorię',
@@ -133,6 +139,7 @@ export default {
     'navigation.archived' : 'Archiwum',
     'navigation.categories' : 'Kategorie',
     'navigation.settings' : 'Ustawienia',
+    'navigation.updated' : 'Zaktualizowane',
 
     'error.dbNotExists' : 'Wybrana baza danych nie istnieje.',
     'error.incorrectDatabaseFormat' : 'Wybrana baza danych jest nieprawidłowa. Upewnij się że wskazujesz odpowiedni katalog utworzony przez aplikację Tentacles Manager.',

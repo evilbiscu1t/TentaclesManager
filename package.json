@@ -10,10 +10,10 @@
   "author": "EvilBiscuit",
   "license": "GPL-3.0-only",
   "devDependencies": {
-    "electron": "^8.3.1",
+    "electron": "^8.3.4",
     "electron-builder": "^22.7.0",
     "electron-webpack": "^2.8.2",
-    "vue-loader": "^15.9.2",
+    "vue-loader": "^15.9.3",
     "vue-template-compiler": "^2.6.11",
     "webpack": "^4.43.0"
   },
@@ -29,10 +29,10 @@
     "source-map-support": "^0.5.19",
     "vue": "^2.6.11",
     "vue-color": "^2.7.1",
-    "vue-i18n": "^8.18.1",
+    "vue-i18n": "^8.18.2",
     "vuetify": "^1.5.24",
     "vuetify-image-input": "^18.16.0",
-    "vuex": "^3.4.0"
+    "vuex": "^3.5.1"
   },
   "electronWebpack": {
     "whiteListedModules": [

@@ -60,6 +60,8 @@ const state = {
         itchLinkVisibility: 'panel',
         currentVersionVisibility : 'panel',
         ownedVersionVisibility : 'hide',
+
+        lastVersionUpdate : '',
     },
 };
 
@@ -99,6 +101,10 @@ const mutations = {
 
         if ('ownedVersionVisibility' in settings) {
             state.settings.ownedVersionVisibility = settings.ownedVersionVisibility;
+        }
+
+        if ('lastVersionUpdate' in settings) {
+            state.settings.lastVersionUpdate = settings.lastVersionUpdate;
         }
     },
 
@@ -140,6 +146,10 @@ const mutations = {
 
     SET_SETTINGS_OWNED_VERSION_VISIBILITY (state, visibility) {
         state.settings.ownedVersionVisibility = visibility;
+    },
+
+    SET_SETTINGS_LAST_VERSION_UPDATE (state, lastUpdate) {
+        state.settings.lastVersionUpdate = lastUpdate;
     },
 
     SET_DB_PASSWORD (state, password) {
@@ -453,6 +463,19 @@ const actions = {
      */
     updateOwnedVersionVisibility (context, visibility) {
         context.commit('SET_SETTINGS_OWNED_VERSION_VISIBILITY', visibility);
+
+        return saveSettingsToDb(context);
+    },
+
+    /**
+     * Updates date of last version update operation.
+     *
+     * @param {Object} context Store context.
+     * @param {string|Date} lastUpdate Date of the last update.
+     * @return {Promise<void>}
+     */
+    updateLastVersionUpdate (context, lastUpdate) {
+        context.commit('SET_SETTINGS_LAST_VERSION_UPDATE', (lastUpdate instanceof Date) ? lastUpdate.toISOString() : lastUpdate);
 
         return saveSettingsToDb(context);
     },

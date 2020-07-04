@@ -24,6 +24,7 @@
     "html-dom-parser": "^0.3.0",
     "lodash": "^4.17.15",
     "material-design-icons-iconfont": "^4.0.5",
+    "moment": "^2.27.0",
     "nedb": "^1.8.0",
     "node-fetch": "^2.6.0",
     "source-map-support": "^0.5.19",

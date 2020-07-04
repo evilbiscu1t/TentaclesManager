@@ -36,6 +36,8 @@ export default {
     'totalItems' : 'Total items',
     'updating' : 'Updating',
     'duplicatesWarning' : 'Other items where found with the same Patreon link: {names}',
+    'never' : 'never',
+    'lastUpdate' : 'Last update: {date}',
 
     'createNewDatabase' : 'Create New Database',
     'changeDatabaseName' : 'Rename Database',

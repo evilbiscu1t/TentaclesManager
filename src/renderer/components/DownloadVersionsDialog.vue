@@ -86,8 +86,6 @@
 
                             let item = itemsToUpdate[i];
 
-                            await itemRepository.update(item._id, {updated: false});
-
                             this.currentGameTitle = item.name;
                             this.progress         = Math.floor((i / total) * 100);
 
@@ -97,7 +95,9 @@
                             if (downloadedVersion && downloadedVersion !== item.currentVersion) {
                                 this.updatedVersions++;
 
-                                toUpdate.push({id: item._id, version: downloadedVersion});
+                                toUpdate.push({id: item._id, data: {currentVersion: downloadedVersion, updated: true}});
+                            } else {
+                                toUpdate.push({id: item._id, data: {updated: false}});
                             }
                         }
 
@@ -108,10 +108,12 @@
                             this.currentGameTitle = this.$t('dialog.savingData');
 
                             for (let data of toUpdate) {
-                                await itemRepository.update(data.id, {currentVersion: data.version, updated: true});
+                                await itemRepository.update(data.id, data.data);
                             }
 
                             this.progress = 100;
+
+                            this.$store.dispatch('updateLastVersionUpdate', new Date());
 
                             this.$emit('update-complete');
                         }

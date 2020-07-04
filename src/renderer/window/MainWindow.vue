@@ -5,6 +5,7 @@
                 <v-toolbar-side-icon @click="showNavigation = !showNavigation"></v-toolbar-side-icon>
                 <v-toolbar-title>{{ dbName }}</v-toolbar-title>
                 <v-spacer></v-spacer>
+                <div v-if="showLastUpdate">{{ $t('lastUpdate', {date: lastVersionUpdateDate}) }}</div>
                 <v-tooltip bottom>
                     <template #activator="{ on }">
                         <v-btn flat icon color="primary" v-on="on" @click="showAddNewItemForm">
@@ -115,7 +116,9 @@
 </template>
 
 <script>
+    import { remote } from 'electron';
     import { mapGetters } from 'vuex';
+    import moment from 'moment';
 
     import Navigation from '../components/Navigation.vue';
     import UnlockDialog from '../components/UnlockDialog.vue';
@@ -170,6 +173,11 @@
                  * If settings dialog should be shown.
                  */
                 showSettings : false,
+
+                /**
+                 * If info about last update should be shown.
+                 */
+                showLastUpdate : false,
 
                 /**
                  * Current page numer (calculated from 1).
@@ -281,6 +289,16 @@
 
             filterBtnColor () {
                 return this.isFilterDefined ? 'primary' : 'grey';
+            },
+
+            lastVersionUpdateDate () {
+                const settingsDate = this.$store.getters.settings.lastVersionUpdate;
+
+                if (!settingsDate) {
+                    return this.$t('never');
+                } else {
+                    return moment(settingsDate).locale(remote.app.getLocale()).fromNow();
+                }
             },
 
             /**
@@ -465,6 +483,7 @@
                 this.filters.favorites = true;
                 this.filters.archived = false;
                 this.filters.updated = undefined;
+                this.showLastUpdate = false;
 
                 this.countItems();
             },
@@ -474,6 +493,7 @@
                 this.filters.favorites = undefined;
                 this.filters.archived = false;
                 this.filters.updated = true;
+                this.showLastUpdate = true;
 
                 this.countItems();
             },
@@ -483,6 +503,7 @@
                 this.filters.favorites = undefined;
                 this.filters.archived = false;
                 this.filters.updated = undefined;
+                this.showLastUpdate = false;
 
                 this.countItems();
             },
@@ -492,6 +513,7 @@
                 this.filters.favorites = undefined;
                 this.filters.archived = true;
                 this.filters.updated = undefined;
+                this.showLastUpdate = false;
 
                 this.countItems();
             },
@@ -501,6 +523,7 @@
                 this.filters.favorites = undefined;
                 this.filters.archived = false;
                 this.filters.updated = undefined;
+                this.showLastUpdate = false;
 
                 this.countItems();
             },

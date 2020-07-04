@@ -36,6 +36,8 @@ export default {
     'totalItems' : 'Liczba pozycji',
     'updating' : 'Aktualizacja',
     'duplicatesWarning' : 'Znaleziono inne pozycje z tym samym linkiem do Patreon: {names}',
+    'never' : 'nigdy',
+    'lastUpdate' : 'Ostatnia aktualizacja: {date}',
 
     'createNewDatabase' : 'Utwórz nową bazę danych',
     'changeDatabaseName' : 'Zmień nazwę bazy danych',

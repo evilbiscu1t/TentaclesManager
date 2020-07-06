@@ -107,6 +107,7 @@
 
         <SettingsDialog :is-visible="showSettings" @hide-dialog="showSettings = false" @loading-status-changed="setLoading" @category-updated="countItems" @tag-updated="countItems" />
         <ScreenshotsDialog ref="screenshotsDialog" />
+        <UpdatedInfoDialog ref="updatedTabInfoDialog" />
         <DownloadVersionsDialog ref="downloadVersionsDialog" @update-complete="countItems" />
 
         <v-snackbar v-model="infoSnackbarOpened" :timeout="3000" bottom>
@@ -133,6 +134,7 @@
     import {loadAvatars, loadScreenshots} from '../operations/ImagesLoader.js';
     import DeleteItemOperation from '../operations/DeleteItem.js';
     import DownloadVersionsDialog from "../components/DownloadVersionsDialog";
+    import UpdatedInfoDialog from "../components/UpdatedInfoDialog";
 
     export default {
         name: 'MainWindow',
@@ -495,6 +497,10 @@
                 this.filters.updated = true;
                 this.showLastUpdate = true;
 
+                if (!this.lastVersionUpdateDate) {
+                    this.$refs.updatedTabInfoDialog.showInfo();
+                }
+
                 this.countItems();
             },
 
@@ -566,6 +572,7 @@
         },
 
         components : {
+            UpdatedInfoDialog,
             DownloadVersionsDialog,
             SortPanel,
             Navigation,

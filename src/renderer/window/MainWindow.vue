@@ -497,7 +497,7 @@
                 this.filters.updated = true;
                 this.showLastUpdate = true;
 
-                if (!this.lastVersionUpdateDate) {
+                if (!this.$store.getters.settings.lastVersionUpdate) {
                     this.$refs.updatedTabInfoDialog.showInfo();
                 }
 

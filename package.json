@@ -22,7 +22,7 @@
     "debounce": "^1.2.0",
     "fs-extra": "^8.1.0",
     "html-dom-parser": "^0.3.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "material-design-icons-iconfont": "^4.0.5",
     "moment": "^2.27.0",
     "nedb": "^1.8.0",

@@ -31,9 +31,10 @@
                     <v-card-text>
                         <div style="white-space: pre-line;">{{ item.description }}</div>
                         <div class="pt-2"><v-chip color="primary" small text-color="white" v-for="tag in item.tags" :key="tag">{{tag}}</v-chip></div>
-                        <div class="pt-3" v-if="item.www || item.patreon || item.f95 || item.itch || item.links.length">
+                        <div class="pt-3" v-if="item.www || item.patreon || item.f95 || item.itch || item.subscribeStar || item.links.length">
                             <div class="mb-2"><v-icon small class="mr-2">share</v-icon><strong>{{ $t('links') }}</strong></div>
                             <div v-if="item.patreon"><v-btn flat small class="text-lowercase my-0" @click="patreonLinkClicked(item.patreon)"><v-icon small class="mr-2">payment</v-icon> https://patreon.com/{{item.patreon}}</v-btn></div>
+                            <div v-if="item.subscribeStar"><v-btn flat small class="text-lowercase my-0" @click="subscribeStarLinkClicked(item.subscribeStar)"><v-icon small class="mr-2">stars</v-icon> https://subscribestar.adult/{{item.subscribeStar}}</v-btn></div>
                             <div v-if="item.f95"><v-btn flat small class="text-lowercase my-0" @click="f95LinkClicked(item.f95)"><v-icon small class="mr-2">forum</v-icon> https://f95zone.to/threads/{{item.f95}}</v-btn></div>
                             <div v-if="item.itch"><v-btn flat small class="text-lowercase my-0" @click="linkClicked(item.itch)"><v-icon small class="mr-2">local_grocery_store</v-icon> {{item.itch}}</v-btn></div>
                             <div v-if="item.www"><v-btn flat small class="text-lowercase my-0" @click="linkClicked(item.www)"><v-icon small class="mr-2">public</v-icon> {{ item.www }}</v-btn></div>
@@ -188,6 +189,22 @@
                 this.clickedLink = 'https://patreon.com/' + link;
 
                 switch (this.$store.getters.settings.patreonClickAction) {
+                    case 'open':
+                        this.openLink();
+                        break;
+                    case 'copy':
+                        this.copyLink();
+                        break;
+                    case 'ask':
+                        linksMenu.popup();
+                        break;
+                }
+            },
+
+            subscribeStarLinkClicked (link) {
+                this.clickedLink = 'https://subscribestar.adult/' + link;
+
+                switch (this.$store.getters.settings.subscribeStarClickAction) {
                     case 'open':
                         this.openLink();
                         break;

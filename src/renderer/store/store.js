@@ -53,11 +53,13 @@ const state = {
         linkClickAction : 'open',
         patreonClickAction : 'open',
         f95ClickAction : 'open',
+        subscribeStarClickAction : 'open',
 
         patreonLinkVisibility: 'show',
-        wwwLinkVisibility: 'panel',
-        f95LinkVisibility: 'show',
+        wwwLinkVisibility: 'show',
+        f95LinkVisibility: 'panel',
         itchLinkVisibility: 'panel',
+        subscribeStarLinkVisibility : 'panel',
         currentVersionVisibility : 'panel',
         ownedVersionVisibility : 'hide',
 
@@ -93,6 +95,14 @@ const mutations = {
 
         if ('itchLinkVisibility' in settings) {
             state.settings.itchLinkVisibility = settings.itchLinkVisibility;
+        }
+
+        if ('subscribeStarLinkVisibility' in settings) {
+            state.settings.subscribeStarLinkVisibility = settings.subscribeStarLinkVisibility;
+        }
+
+        if ('subscribeStarClickAction' in settings) {
+            state.settings.subscribeStarClickAction = settings.subscribeStarClickAction;
         }
 
         if ('currentVersionVisibility' in settings) {
@@ -138,6 +148,14 @@ const mutations = {
 
     SET_SETTINGS_ITCH_LINK_VISIBILITY (state, visibility) {
         state.settings.itchLinkVisibility = visibility;
+    },
+
+    SET_SETTINGS_SUBSCRIBE_STAR_LINK_VISIBILITY (state, visibility) {
+        state.settings.subscribeStarLinkVisibility = visibility;
+    },
+
+    SET_SETTINGS_SUBSCRIBE_STAR_CLICK_ACTION (state, clickAction) {
+        state.settings.subscribeStarClickAction = clickAction;
     },
 
     SET_SETTINGS_CURRENT_VERSION_VISIBILITY (state, visibility) {
@@ -439,6 +457,31 @@ const actions = {
      */
     updateItchLinkVisibility (context, visibility) {
         context.commit('SET_SETTINGS_ITCH_LINK_VISIBILITY', visibility);
+
+        return saveSettingsToDb(context);
+    },
+
+    /**
+     * Updates Subscribe Star link visibility settings.
+     *
+     * @param {Object} context Store context.
+     * @param {string} visibility New visibility value.
+     */
+    updateSubscribeStarLinkVisibility (context, visibility) {
+        context.commit('SET_SETTINGS_SUBSCRIBE_STAR_LINK_VISIBILITY', visibility);
+
+        return saveSettingsToDb(context);
+    },
+
+    /**
+     * Updates SubscribeStar link click action setting.
+     *
+     * @param {Object} context Store context.
+     * @param {string} clickAction New click action.
+     * @returns {Promise<void>}
+     */
+    updateSubscribeStarClickAction (context, clickAction) {
+        context.commit('SET_SETTINGS_SUBSCRIBE_STAR_CLICK_ACTION', clickAction);
 
         return saveSettingsToDb(context);
     },

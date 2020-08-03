@@ -22,6 +22,7 @@
                         <v-text-field v-if="settings.wwwLinkVisibility === 'show'" :label="$t('item.www')" v-model="values.www" :rules="[validationRules.url]" @contextmenu="showStandardTextMenu"></v-text-field>
                         <v-text-field v-if="settings.f95LinkVisibility === 'show'" :label="$t('item.f95link')" v-model="values.f95" prefix="https://f95zone.to/threads/" @paste="f95LinkPaste" @contextmenu="showStandardTextMenu" append-icon="cloud_download" @click:append="downloadMetadataFromF95"></v-text-field>
                         <v-text-field v-if="settings.itchLinkVisibility === 'show'" :label="$t('item.itchLink')" v-model="values.itch" :rules="[validationRules.url]" @contextmenu="showStandardTextMenu"></v-text-field>
+                        <v-text-field v-if="settings.subscribeStarLinkVisibility === 'show'" :label="$t('item.subscribeStarLink')" v-model="values.subscribeStar" prefix="https://subscribestar.adult/" @paste="subscribeStarLinkPaste" @contextmenu="showStandardTextMenu"></v-text-field>
                         <v-text-field v-if="settings.currentVersionVisibility === 'show'" :label="$t('item.currentVersion')" v-model="values.currentVersion" @contextmenu="showStandardTextMenu"></v-text-field>
                         <v-text-field v-if="settings.ownedVersionVisibility === 'show'" :label="$t('item.ownedVersion')" v-model="values.ownedVersion" @contextmenu="showStandardTextMenu"></v-text-field>
                         <span class="grey--text text--darken-2">{{ $t('item.rating') }}</span>
@@ -117,6 +118,7 @@
                                         <v-text-field v-if="settings.wwwLinkVisibility === 'panel'" :label="$t('item.www')" v-model="values.www" :rules="[validationRules.url]" @contextmenu="showStandardTextMenu"></v-text-field>
                                         <v-text-field v-if="settings.f95LinkVisibility === 'panel'" :label="$t('item.f95link')" v-model="values.f95" prefix="https://f95zone.to/threads/" @paste="f95LinkPaste" @contextmenu="showStandardTextMenu" append-icon="cloud_download" @click:append="downloadMetadataFromF95"></v-text-field>
                                         <v-text-field v-if="settings.itchLinkVisibility === 'panel'" :label="$t('item.itchLink')" v-model="values.itch" :rules="[validationRules.url]" @contextmenu="showStandardTextMenu"></v-text-field>
+                                        <v-text-field v-if="settings.subscribeStarLinkVisibility === 'panel'" :label="$t('item.subscribeStarLink')" prefix="https://subscribestar.adult/" v-model="values.subscribeStar" @paste="subscribeStarLinkPaste" @contextmenu="showStandardTextMenu"></v-text-field>
                                         <v-text-field v-if="settings.currentVersionVisibility === 'panel'" :label="$t('item.currentVersion')" v-model="values.currentVersion" @contextmenu="showStandardTextMenu"></v-text-field>
                                         <v-text-field v-if="settings.ownedVersionVisibility === 'panel'" :label="$t('item.ownedVersion')" v-model="values.ownedVersion" @contextmenu="showStandardTextMenu"></v-text-field>
                                     </v-flex>
@@ -203,6 +205,7 @@
                     www : '',
                     f95 : '',
                     itch : '',
+                    subscribeStar : '',
                     currentVersion : '',
                     ownedVersion : '',
                     inDevelopment : false,
@@ -362,7 +365,12 @@
                                         this.values.itch = text;
                                     }
                                 } else {
-                                    if (this.settings.wwwLinkVisibility === 'show') {
+                                    const match = /(https:\/\/)?(www\.)?subscribestar\.adult\/(.*)/.exec(text);
+                                    if (match) {
+                                        if (this.settings.subscribeStarLinkVisibility === 'show') {
+                                            this.values.subscribeStar = match[match.length - 1];
+                                        }
+                                    } else if (this.settings.wwwLinkVisibility === 'show') {
                                         this.values.www = text;
                                     }
                                 }
@@ -391,6 +399,7 @@
                 if ('itch' in item) this.values.itch = item.itch;
                 if ('currentVersion' in item) this.values.currentVersion = item.currentVersion;
                 if ('ownedVersion' in item) this.values.ownedVersion = item.ownedVersion;
+                if ('subscribeStar' in item) this.values.subscribeStar = item.subscribeStar;
 
                 if (item.category) {
                     this.values.categoryId = item.category.id;
@@ -423,6 +432,7 @@
                 this.values.www = '';
                 this.values.f95 = '';
                 this.values.itch = '';
+                this.values.subscribeStar = '';
                 this.values.currentVersion = '';
                 this.values.ownedVersion = '';
                 this.values.inDevelopment = false;
@@ -473,6 +483,7 @@
                     www           : this.values.www,
                     f95           : this.values.f95,
                     itch          : this.values.itch,
+                    subscribeStar : this.values.subscribeStar,
                     inDevelopment : this.values.inDevelopment,
                     completed     : this.values.completed,
                     archived      : this.values.archived,
@@ -584,6 +595,22 @@
                     const match = /(https:\/\/)?(www\.)?patreon\.com\/(.*)/.exec(this.values.patreon);
                     if (match) {
                         this.values.patreon = match[match.length - 1];
+                    }
+                }, 500);
+            },
+
+            /**
+             * Extracts Subscribe Star creator name from link pasted into the field.
+             */
+            subscribeStarLinkPaste () {
+                setTimeout(() => {
+                    if (!this.values.subscribeStar) {
+                        return;
+                    }
+
+                    const match = /(https:\/\/)?(www\.)?subscribestar\.adult\/(.*)/.exec(this.values.subscribeStar);
+                    if (match) {
+                        this.values.subscribeStar = match[match.length - 1];
                     }
                 }, 500);
             },

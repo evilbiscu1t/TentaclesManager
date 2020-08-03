@@ -4,6 +4,7 @@
             <v-select :label="$t('settings.linkClickAction')" :items="linkOptions" v-model="linkClickAction"></v-select>
             <v-select :label="$t('settings.patreonClickAction')" :items="linkOptions" v-model="patreonClickAction"></v-select>
             <v-select :label="$t('settings.f95ClickAction')" :items="linkOptions" v-model="f95ClickAction"></v-select>
+            <v-select :label="$t('settings.subscribeStarClickAction')" :items="linkOptions" v-model="subscribeStarClickAction"></v-select>
             <v-tooltip top>
                 <template #activator="{on}">
                     <v-subheader class="pl-0" v-on="on">{{ $t('imagesQuality') }}</v-subheader>
@@ -55,6 +56,15 @@
                 },
                 set (value) {
                     this.$store.dispatch('updateF95ClickAction', value);
+                }
+            },
+
+            subscribeStarClickAction : {
+                get () {
+                    return this.$store.getters.settings.subscribeStarClickAction;
+                },
+                set (value) {
+                    this.$store.dispatch('updateSubscribeStarClickAction', value);
                 }
             },
         },

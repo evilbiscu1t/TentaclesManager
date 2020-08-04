@@ -125,3 +125,51 @@ export function downloadF95Metadata(topicPath, callback) {
             });
         });
 }
+
+/**
+ * Downloads metadata from Subscribe Star.
+ *
+ * @param {string} path Path to Subscribe Star profile.
+ * @param {function} callback Callback function.
+ */
+export function downloadSubscribeStarMetadata(path, callback) {
+    fetch('https://subscribestar.adult/' + path)
+        .then(res => res.text())
+        .then(body => {
+            let avatar      = '';
+            let description = '';
+            let tagsList    = [];
+
+            let match = body.match(/<img\sdata-view="app#avatar"\sdata-type="avatar".+?\s\/>/);
+
+            if (match) {
+                const avatarDom = domparser(match[0]);
+                avatar = avatarDom[0].attribs.src;
+            }
+
+            match = body.match(/<div\sclass="profile_main_info-categories"><div\sclass="profile_categories for-profile_main_info">[^\0]+?<\/div><\/div><\/div>/);
+
+            if (match) {
+                const tagsDom = domparser(match[0]);
+
+                for (let categoryDiv of tagsDom[0].children[0].children) {
+                    if (categoryDiv.name === 'div' && categoryDiv.children[0].name === 'a') {
+                        console.log(categoryDiv.children[0].children[0].data);
+                        tagsList.push(categoryDiv.children[0].children[0].data);
+                    }
+                }
+            }
+
+            match = body.match(/<div\sclass="profile_main_info-description">([^\0]+?)<\/div>/);
+
+            if (match) {
+                description = match[1];
+            }
+
+            callback({
+                avatar,
+                description,
+                tags : tagsList
+            });
+        });
+}

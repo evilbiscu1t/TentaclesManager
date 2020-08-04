@@ -22,7 +22,7 @@
                         <v-text-field v-if="settings.wwwLinkVisibility === 'show'" :label="$t('item.www')" v-model="values.www" :rules="[validationRules.url]" @contextmenu="showStandardTextMenu"></v-text-field>
                         <v-text-field v-if="settings.f95LinkVisibility === 'show'" :label="$t('item.f95link')" v-model="values.f95" prefix="https://f95zone.to/threads/" @paste="f95LinkPaste" @contextmenu="showStandardTextMenu" append-icon="cloud_download" @click:append="downloadMetadataFromF95"></v-text-field>
                         <v-text-field v-if="settings.itchLinkVisibility === 'show'" :label="$t('item.itchLink')" v-model="values.itch" :rules="[validationRules.url]" @contextmenu="showStandardTextMenu"></v-text-field>
-                        <v-text-field v-if="settings.subscribeStarLinkVisibility === 'show'" :label="$t('item.subscribeStarLink')" v-model="values.subscribeStar" prefix="https://subscribestar.adult/" @paste="subscribeStarLinkPaste" @contextmenu="showStandardTextMenu"></v-text-field>
+                        <v-text-field v-if="settings.subscribeStarLinkVisibility === 'show'" :label="$t('item.subscribeStarLink')" v-model="values.subscribeStar" prefix="https://subscribestar.adult/" @paste="subscribeStarLinkPaste" @contextmenu="showStandardTextMenu" append-icon="cloud_download" @click:append="downloadMetadataFromSubscribeStar"></v-text-field>
                         <v-text-field v-if="settings.currentVersionVisibility === 'show'" :label="$t('item.currentVersion')" v-model="values.currentVersion" @contextmenu="showStandardTextMenu"></v-text-field>
                         <v-text-field v-if="settings.ownedVersionVisibility === 'show'" :label="$t('item.ownedVersion')" v-model="values.ownedVersion" @contextmenu="showStandardTextMenu"></v-text-field>
                         <span class="grey--text text--darken-2">{{ $t('item.rating') }}</span>
@@ -118,7 +118,7 @@
                                         <v-text-field v-if="settings.wwwLinkVisibility === 'panel'" :label="$t('item.www')" v-model="values.www" :rules="[validationRules.url]" @contextmenu="showStandardTextMenu"></v-text-field>
                                         <v-text-field v-if="settings.f95LinkVisibility === 'panel'" :label="$t('item.f95link')" v-model="values.f95" prefix="https://f95zone.to/threads/" @paste="f95LinkPaste" @contextmenu="showStandardTextMenu" append-icon="cloud_download" @click:append="downloadMetadataFromF95"></v-text-field>
                                         <v-text-field v-if="settings.itchLinkVisibility === 'panel'" :label="$t('item.itchLink')" v-model="values.itch" :rules="[validationRules.url]" @contextmenu="showStandardTextMenu"></v-text-field>
-                                        <v-text-field v-if="settings.subscribeStarLinkVisibility === 'panel'" :label="$t('item.subscribeStarLink')" prefix="https://subscribestar.adult/" v-model="values.subscribeStar" @paste="subscribeStarLinkPaste" @contextmenu="showStandardTextMenu"></v-text-field>
+                                        <v-text-field v-if="settings.subscribeStarLinkVisibility === 'panel'" :label="$t('item.subscribeStarLink')" prefix="https://subscribestar.adult/" v-model="values.subscribeStar" @paste="subscribeStarLinkPaste" @contextmenu="showStandardTextMenu"  append-icon="cloud_download" @click:append="downloadMetadataFromSubscribeStar"></v-text-field>
                                         <v-text-field v-if="settings.currentVersionVisibility === 'panel'" :label="$t('item.currentVersion')" v-model="values.currentVersion" @contextmenu="showStandardTextMenu"></v-text-field>
                                         <v-text-field v-if="settings.ownedVersionVisibility === 'panel'" :label="$t('item.ownedVersion')" v-model="values.ownedVersion" @contextmenu="showStandardTextMenu"></v-text-field>
                                     </v-flex>
@@ -668,6 +668,34 @@
                     this.values.tags = data.tags;
 
                     this.$refs.tagInput.setTags(data.tags.slice(0));
+                });
+            },
+
+            /**
+             * Downloads data from Subscribe Star.
+             */
+            downloadMetadataFromSubscribeStar () {
+                if (!this.values.subscribeStar) {
+                    return;
+                }
+
+                this.$emit('loading-status-changed', true);
+                mainProcess.downloadSubscribeStarMetadata(this.values.subscribeStar, data => {
+                    this.$emit('loading-status-changed', false);
+
+                    if (data.tags && data.tags.length) {
+                        this.values.tags = data.tags;
+
+                        this.$refs.tagInput.setTags(data.tags.slice(0));
+                    }
+
+                    if (data.description) {
+                        this.values.description = data.description;
+                    }
+
+                    if (data.avatar) {
+                        this.setAvatarFromUrl(data.avatar);
+                    }
                 });
             },
 

@@ -172,7 +172,7 @@
      *
      * @property {Function}
      */
-    let searchForPatreonFn;
+    let searchForDuplicateFn;
 
     export default {
         name: 'ItemFormDialog',
@@ -311,6 +311,10 @@
 
             patreonLink () {
                 return this.values.patreon;
+            },
+
+            subscribeStarLink () {
+                return this.values.subscribeStar;
             },
 
             settings () {
@@ -805,8 +809,9 @@
                 }
             ]);
 
-            searchForPatreonFn = debounce(() => {
+            searchForDuplicateFn = debounce(() => {
                 const patreonLink = this.values.patreon;
+                const subscribeStarLink = this.values.subscribeStar;
 
                 if (patreonLink) {
                     itemRepository.findByPatreon(patreonLink).then(items => {
@@ -819,7 +824,24 @@
                         }
 
                         if (duplicates.length) {
-                            this.duplicatesWarningText = this.$t('duplicatesWarning', {names: duplicates.join(', ')});
+                            this.duplicatesWarningText = this.$t('patreonDuplicatesWarning', {names: duplicates.join(', ')});
+                            this.showDuplicatesWarning = true;
+                        } else {
+                            this.showDuplicatesWarning = false;
+                        }
+                    });
+                } else if (subscribeStarLink) {
+                    itemRepository.findBySubscribeStar(subscribeStarLink).then(items => {
+                        let duplicates = [];
+
+                        for (let item of items) {
+                            if (item._id !== this.itemId) {
+                                duplicates.push(item.name);
+                            }
+                        }
+
+                        if (duplicates.length) {
+                            this.duplicatesWarningText = this.$t('subscribeStarDuplicatesWarning', {names: duplicates.join(', ')});
                             this.showDuplicatesWarning = true;
                         } else {
                             this.showDuplicatesWarning = false;
@@ -848,7 +870,12 @@
             },
             patreonLink : {
                 handler : function () {
-                    searchForPatreonFn();
+                    searchForDuplicateFn();
+                }
+            },
+            subscribeStarLink : {
+                handler : function () {
+                    searchForDuplicateFn();
                 }
             }
         },

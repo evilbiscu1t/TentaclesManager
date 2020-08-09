@@ -35,7 +35,8 @@ export default {
     'orderBy' : 'Kolejność wyświetlania',
     'totalItems' : 'Liczba pozycji',
     'updating' : 'Aktualizacja',
-    'duplicatesWarning' : 'Znaleziono inne pozycje z tym samym linkiem do Patreon: {names}',
+    'patreonDuplicatesWarning' : 'Znaleziono inne pozycje z tym samym linkiem do Patreon: {names}',
+    'subscribeStarDuplicatesWarning' : 'Znaleziono inne pozycje z tym samym linkiem do Subscribe Star: {names}',
     'never' : 'nigdy',
     'lastUpdate' : 'Ostatnia aktualizacja: {date}',
 

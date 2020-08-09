@@ -35,7 +35,8 @@ export default {
     'orderBy' : 'Order By',
     'totalItems' : 'Total items',
     'updating' : 'Updating',
-    'duplicatesWarning' : 'Other items where found with the same Patreon link: {names}',
+    'patreonDuplicatesWarning' : 'Other items where found with the same Patreon link: {names}',
+    'subscribeStarDuplicatesWarning' : 'Other items where found with the same Subscribe Star link: {names}',
     'never' : 'never',
     'lastUpdate' : 'Last update: {date}',
 

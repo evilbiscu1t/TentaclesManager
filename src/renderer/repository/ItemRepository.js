@@ -110,6 +110,24 @@ export default {
     },
 
     /**
+     * Finds items by its subscribe star link.
+     *
+     * @param {string} subscribeStar
+     * @return {Promise<Array, Error>}
+     */
+    findBySubscribeStar (subscribeStar) {
+        return new Promise((resolve, reject) => {
+            databaseManager.getItemsDb().find({subscribeStar}, (err, items) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(items);
+                }
+            });
+        });
+    },
+
+    /**
      * Finds all items that can have automatic version download.
      *
      * @return {Promise<Array, Error>}

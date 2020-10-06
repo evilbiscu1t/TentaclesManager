@@ -10,7 +10,7 @@
   "author": "EvilBiscuit",
   "license": "GPL-3.0-only",
   "devDependencies": {
-    "electron": "^8.5.0",
+    "electron": "^8.5.1",
     "electron-builder": "^22.7.0",
     "electron-webpack": "^2.8.2",
     "vue-loader": "^15.9.3",

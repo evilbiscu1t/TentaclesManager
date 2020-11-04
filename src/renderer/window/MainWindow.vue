@@ -136,6 +136,8 @@
     import DownloadVersionsDialog from "../components/DownloadVersionsDialog";
     import UpdatedInfoDialog from "../components/UpdatedInfoDialog";
 
+    const mainProcess = remote.require('./main.js');
+
     export default {
         name: 'MainWindow',
 
@@ -287,7 +289,7 @@
         },
 
         computed : {
-            ...mapGetters(['dbName']),
+            ...mapGetters(['dbName', 'dbFile']),
 
             filterBtnColor () {
                 return this.isFilterDefined ? 'primary' : 'grey';
@@ -349,9 +351,11 @@
              * Loads data after unlocking the database.
              */
             initData () {
-                this.$store.dispatch('loadTags');
-                this.$store.dispatch('loadCategories');
-                this.countItems();
+                mainProcess.createBackup(this.dbFile).then(() => {
+                    this.$store.dispatch('loadTags');
+                    this.$store.dispatch('loadCategories');
+                    this.countItems();
+                });
             },
 
             showEditDialog (item) {

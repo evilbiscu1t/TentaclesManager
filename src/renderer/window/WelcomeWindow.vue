@@ -149,6 +149,22 @@
                 }
             },
 
+            fixDatabase (dbData) {
+                mainProcess.openWindow('databaseFixerWindow', {
+                    width          : 500,
+                    height         : 650,
+                    show           : false,
+                    resizable      : false,
+                    maximizable    : false,
+                    title          : this.$t('fixDatabaseTitle', {dbName: dbData.name}),
+                    parent         : remote.getCurrentWindow(),
+                    modal          : true,
+                    webPreferences : {
+                        nodeIntegration: true
+                    },
+                }, {dbFile: path.join(dbData.path, dbData.name)}, false);
+            },
+
             renameDatabase (dbData) {
                 if (!fs.existsSync(dbData.path)) {
                     this.infoMessage      = this.$t('error.dbNotExists');
@@ -215,6 +231,10 @@
                     {
                         label: this.$t('delete'),
                         click: () => this.deleteDatabase(dbData)
+                    },
+                    {
+                        label: this.$t('fixDatabase'),
+                        click: () => this.fixDatabase(dbData)
                     }
                 ]).popup();
             },

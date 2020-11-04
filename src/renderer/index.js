@@ -13,6 +13,7 @@ import store from './store/store.js';
 import WelcomeWindow from './window/WelcomeWindow.vue';
 import NewDatabaseWindow from './window/NewDatabaseWindow.vue';
 import MainWindow from './window/MainWindow.vue';
+import DatabaseFixerWindow from "./window/DatabaseFixerWindow";
 
 const params = querystring.parse(global.location.search.substr(1));
 let   windowComponent;
@@ -23,6 +24,10 @@ switch (params.target) {
         break;
     case 'mainWindow':
         windowComponent = MainWindow;
+        store.dispatch('setDbFile', params.dbFile);
+        break;
+    case 'databaseFixerWindow':
+        windowComponent = DatabaseFixerWindow;
         store.dispatch('setDbFile', params.dbFile);
         break;
     default:

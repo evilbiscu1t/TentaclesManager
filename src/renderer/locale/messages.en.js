@@ -39,6 +39,12 @@ export default {
     'subscribeStarDuplicatesWarning' : 'Other items where found with the same Subscribe Star link: {names}',
     'never' : 'never',
     'lastUpdate' : 'Last update: {date}',
+    'fixDatabaseTitle' : 'Fix database "{dbName}" structure',
+    'fixDatabase' : 'Fix database',
+    'start' : 'Start',
+    'fixDb.info' : 'To start automatic database fix insert your password and click "Start" button bellow. This procedure will try to read through database recognise incorrect lines and remove them. Please backup your database before continuing.',
+    'tooltip.fixDb.password' : 'Insert password used to unlock the database.',
+    'fixDb.result' : 'The operation was completed successfully. Total number of lines: {total}; damaged lines omitted: {removed}.',
 
     'createNewDatabase' : 'Create New Database',
     'changeDatabaseName' : 'Rename Database',

@@ -39,6 +39,12 @@ export default {
     'subscribeStarDuplicatesWarning' : 'Znaleziono inne pozycje z tym samym linkiem do Subscribe Star: {names}',
     'never' : 'nigdy',
     'lastUpdate' : 'Ostatnia aktualizacja: {date}',
+    'fixDatabase' : 'Napraw bazę danych',
+    'fixDatabaseTitle' : 'Naprawa struktury bazy danych "{dbName}"',
+    'start' : 'Start',
+    'fixDb.info' : 'Aby rozpocząć procedurę naprawy bazy danych wprowadź swoje hasło i kliknij guzik "Start". Ta funkcja odczyta bazę danych linia po linii i spróbuje rozpoznać te nieprawidłowe. Zrób kopię zapasową przez kontynuowaniem.',
+    'tooltip.fixDb.password' : 'Wprowadź hasło używane do odblokowania bazy danych.',
+    'fixDb.result' : 'Operacja zakończona powodzeniem. Całkowita liczba linii: {total}; pominięto linii uszkodzonych: {removed}.',
 
     'createNewDatabase' : 'Utwórz nową bazę danych',
     'changeDatabaseName' : 'Zmień nazwę bazy danych',

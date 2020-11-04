@@ -11,6 +11,7 @@ const isDevelopment = process.env.NODE_ENV !== 'production';
 const appWindows    = new Map();
 
 export * from './download';
+export * from './backup';
 
 /**
  * Opens new app window.
@@ -201,6 +202,17 @@ export function downloadFile (url) {
         return res.buffer();
     })
 }
+
+// /**
+//  * Creates database backup.
+//  *
+//  * @param {string} dbPath Database to backup.
+//  * @return {Promise<void>}
+//  */
+// export function createBackup(dbPath) {
+//     const backup = new BackupDb(dbPath);
+//     return backup.createBackup();
+// }
 
 app.on('ready', () => {
     if (process.env.NODE_ENV !== 'development') {
